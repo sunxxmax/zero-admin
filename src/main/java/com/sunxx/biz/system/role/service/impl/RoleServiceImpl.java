@@ -5,7 +5,7 @@ import com.sunxx.biz.system.role.mapper.RoleMapper;
 import com.sunxx.biz.system.role.service.RoleService;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -22,8 +22,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Page<Role> page(PageRequest pageRequest) {
-        return roleMapper.findAll(pageRequest);
+    public Page<Role> page(Pageable pageable) {
+        return roleMapper.findAll(pageable);
     }
 
     @Override

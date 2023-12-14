@@ -1,5 +1,7 @@
 package com.sunxx.biz.system.role.domain;
 
+import com.sunxx.audit.AuditMetadata;
+import com.sunxx.common.enums.Fixed;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,27 +19,40 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // 角色名
-    @Column(name = "name")
-    private String name;
-
-    // 角色编码
+    /**
+     * 编码
+     */
     @Column(name = "code")
     private String code;
-
-    // 排序
+    /**
+     * 名称
+     */
+    @Column(name = "name")
+    private String name;
+    /**
+     * 排序
+     */
     @Column(name = "sort")
     private Integer sort;
-
-    // 状态
+    /**
+     * 状态
+     */
     @Column(name = "status")
     private Integer status;
+    /**
+     * 描述
+     */
+    @Column(name = "desc")
+    private String desc;
 
-    // 描述
-    @Column(name = "description")
-    private String description;
+    /**
+     * 是否可变
+     */
+    @Column(name = "fixed")
+    @Convert(converter = Fixed.Convert.class)
+    private Fixed fixed;
 
-    // 不可变
-    @Column(name = "immutable")
-    private Boolean immutable;
+    @Embedded
+    @Builder.Default
+    private AuditMetadata auditMetadata = new AuditMetadata();
 }

@@ -9,6 +9,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 
 @Service
 public class DepServiceImpl implements DepService {
@@ -17,14 +19,27 @@ public class DepServiceImpl implements DepService {
     private DepMapper depMapper;
 
     @Override
-    public Page<Dep> list() {
-        Pageable pageable = PageRequest.of(1, 2);
-        Page<Dep> page = depMapper.findAll(pageable);
-        return page;
+    public Optional<Dep> findById(Long id) {
+        return Optional.empty();
     }
 
     @Override
-    public void add(Dep dep) {
+    public Page<Dep> page(Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public void create(Dep source) {
+
+    }
+
+    @Override
+    public void update(Dep source) {
+
+    }
+
+    @Override
+    public void delete(Long id) {
 
     }
 }

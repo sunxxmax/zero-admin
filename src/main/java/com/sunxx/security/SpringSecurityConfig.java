@@ -33,7 +33,7 @@ public class SpringSecurityConfig {
     @Resource
     private AuthenticationEntryPointCustomize authenticationEntryPointCustomize;
 
-    private static final String[] URL_WHITELIST = {"/api/**", "/register", "/login", "/logout", "/captcha", "/favicon.ico"};
+    private static final String[] URL_WHITELIST = {"/api/**", "/register", "/login", "/logout", "/captcha", "/favicon.ico","/notify/**"};
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

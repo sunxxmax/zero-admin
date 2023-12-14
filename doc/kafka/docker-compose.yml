@@ -1,0 +1,35 @@
+version: "2"
+
+# 显示定义一个 bridge 网络
+networks:
+  app-tier:
+    driver: bridge
+
+services:
+  kafka:
+    image: bitnami/kafka:latest
+    ports:
+      - "9092:9092"
+      - "9094:9094"
+    # 文件映射
+    volumes:
+      - "kafka_data:/bitnami"
+    environment:
+      # KRaft settings
+      - KAFKA_CFG_NODE_ID=0
+      # kafka角色，做broker，也要做controller
+      - KAFKA_CFG_PROCESS_ROLES=controller,broker
+      # 集群地址:以逗号分隔的 {id}@{host}:{port}
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
+      # 定义kafka服务端socket监听端口
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9094
+      # 定义外网访问地址（宿主机ip地址和端口）
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092,EXTERNAL://localhost:9094
+      # 使用 Apache Kafka 安全协议映射每个侦听器。如果节点设置了controller角色，则需要此设置才能为CONTROLLER LISTENER. 例如：PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT。没有默认值。
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      # 指定供外部使用的控制类请求信息
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+volumes:
+  kafka_data:
+    driver: local
